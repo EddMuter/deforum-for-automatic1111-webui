@@ -31,7 +31,7 @@ def disable_pers_flip_accord(choice):
 def change_max_frames_visibility(choice):
     return gr.update(visible=choice != "Video Input")
     
-def change_diffusion_cadence_visibility(choice):
+def hide_by_vid_inp_and_interp(choice):
     return gr.update(visible=choice not in ['Video Input', 'Interpolation'])
     
 def disble_3d_related_stuff(choice):

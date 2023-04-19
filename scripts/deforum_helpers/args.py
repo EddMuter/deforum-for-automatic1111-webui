@@ -550,9 +550,9 @@ def setup_deforum_setting_dictionary(self, is_img2img, is_extension = True):
                     # NOISE INNER TAB
                     with gr.TabItem('Noise'):
                         with gr.Column() as noise_tab_column:
-                            with gr.Row(variant='compact'):
+                            with gr.Row(variant='compact') as noise_type_row:
                                 noise_type = gr.Radio(['uniform', 'perlin'], label="Noise type", value=da.noise_type, elem_id="noise_type")
-                            with gr.Row(variant='compact'):
+                            with gr.Row(variant='compact') as noise_schedule_row:
                                 noise_schedule = gr.Textbox(label="Noise schedule", lines=1, value = da.noise_schedule, interactive=True)
                             with gr.Row(variant='compact') as perlin_row:
                                 with gr.Column(min_width=220):
@@ -970,10 +970,10 @@ def setup_deforum_setting_dictionary(self, is_img2img, is_extension = True):
     ncnn_upscale_factor.change(update_upscale_out_res, inputs=[ncnn_upscale_in_vid_res, ncnn_upscale_factor], outputs=ncnn_upscale_out_vid_res)
     vid_to_upscale_chosen_file.change(vid_upscale_gradio_update_stats,inputs=[vid_to_upscale_chosen_file, ncnn_upscale_factor],outputs=[ncnn_upscale_in_vid_fps_ui_window, ncnn_upscale_in_vid_frame_count_window, ncnn_upscale_in_vid_res, ncnn_upscale_out_vid_res])
     animation_mode.change(fn=change_max_frames_visibility, inputs=animation_mode, outputs=max_frames)
-    diffusion_cadence_outputs = [diffusion_cadence,guided_images_accord,optical_flow_cadence_row,cadence_flow_factor_schedule,
-    optical_flow_redo_generation,redo_flow_factor_schedule,diffusion_redo]
-    for output in diffusion_cadence_outputs:
-        animation_mode.change(fn=change_diffusion_cadence_visibility, inputs=animation_mode, outputs=output)
+    hide_by_vid_inp_and_interp_outputs = [diffusion_cadence,guided_images_accord,optical_flow_cadence_row,cadence_flow_factor_schedule,
+    optical_flow_redo_generation,redo_flow_factor_schedule,diffusion_redo, noise_type_row, noise_schedule_row, perlin_row]
+    for output in hide_by_vid_inp_and_interp_outputs:
+        animation_mode.change(fn=hide_by_vid_inp_and_interp, inputs=animation_mode, outputs=output) # visible in all modes except video input and interpolation
     three_d_related_outputs = [depth_3d_warping_accord,fov_accord,only_3d_motion_column]
     for output in three_d_related_outputs:
         animation_mode.change(fn=disble_3d_related_stuff, inputs=animation_mode, outputs=output)
